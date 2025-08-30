@@ -1,0 +1,204 @@
+
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }} - Projects{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="mb-4">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'portfolio:home' %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'projects:project_list' %}">Projects</a></li>
+                        <li class="breadcrumb-item active">{{ project.title }}</li>
+                    </ol>
+                </nav>
+            </div>
+            
+            <article>
+                {% if project.featured_image %}
+                    <img src="{{ project.featured_image.url }}" class="img-fluid mb-4 rounded" alt="{{ project.title }}">
+                {% endif %}
+                
+                <h1 class="mb-3">{{ project.title }}</h1>
+                
+                <div class="mb-4">
+                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                        {% if project.status == 'completed' %}
+                            <span class="badge bg-success">Completed</span>
+                        {% elif project.status == 'in_progress' %}
+                            <span class="badge bg-warning">In Progress</span>
+                        {% elif project.status == 'planning' %}
+                            <span class="badge bg-info">Planning</span>
+                        {% endif %}
+                        
+                        {% if project.is_featured %}
+                            <span class="badge bg-primary">Featured</span>
+                        {% endif %}
+                        
+                        {% if project.category %}
+                            <span class="badge bg-secondary">{{ project.category.name }}</span>
+                        {% endif %}
+                        
+                        <small class="text-muted">Views: {{ project.views_count }}</small>
+                    </div>
+                </div>
+                
+                <!-- Project Links -->
+                {% if project.demo_url or project.source_url %}
+                <div class="mb-4">
+                    <div class="d-flex gap-2">
+                        {% if project.demo_url %}
+                            <a href="{{ project.demo_url }}" target="_blank" class="btn btn-success">
+                                <i class="fas fa-external-link-alt me-2"></i>Live Demo
+                            </a>
+                        {% endif %}
+                        {% if project.source_url %}
+                            <a href="{{ project.source_url }}" target="_blank" class="btn btn-dark">
+                                <i class="fab fa-github me-2"></i>Source Code
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Technologies -->
+                {% if project.technologies.all %}
+                <div class="mb-4">
+                    <h5>Technologies Used</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for tech in project.technologies.all %}
+                            <span class="badge fs-6 px-3 py-2" style="background-color: {{ tech.color|default:'#000' }};">
+                                {% if tech.icon %}<i class="{{ tech.icon }} me-1"></i>{% endif %}
+                                {{ tech.name }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Description -->
+                <div class="mb-4">
+                    <h5>About This Project</h5>
+                    <div class="content">
+                        {{ project.description|linebreaks }}
+                    </div>
+                </div>
+                
+                <!-- Project Features -->
+                {% if project.features.all %}
+                <div class="mb-4">
+                    <h5>Key Features</h5>
+                    <div class="row">
+                        {% for feature in project.features.all %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        {% if feature.icon %}<i class="{{ feature.icon }} me-2"></i>{% endif %}
+                                        {{ feature.title }}
+                                    </h6>
+                                    <p class="card-text">{{ feature.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Project Gallery -->
+                {% if project.images.all %}
+                <div class="mb-4">
+                    <h5>Gallery</h5>
+                    <div class="row">
+                        {% for image in project.images.all %}
+                        <div class="col-md-4 mb-3">
+                            <img src="{{ image.image.url }}" class="img-fluid rounded" alt="{{ image.caption }}">
+                            {% if image.caption %}
+                                <small class="text-muted">{{ image.caption }}</small>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </article>
+            
+            <!-- Related Projects -->
+            {% if related_projects %}
+            <div class="mt-5">
+                <h3>Related Projects</h3>
+                <div class="row">
+                    {% for related_project in related_projects %}
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            {% if related_project.featured_image %}
+                                <img src="{{ related_project.featured_image.url }}" class="card-img-top" alt="{{ related_project.title }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    <a href="{{ related_project.get_absolute_url }}" class="text-decoration-none">
+                                        {{ related_project.title }}
+                                    </a>
+                                </h6>
+                                <p class="card-text">{{ related_project.short_description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Project Details</h5>
+                </div>
+                <div class="card-body">
+                    {% if project.start_date %}
+                        <p><strong>Started:</strong> {{ project.start_date|date:"F Y" }}</p>
+                    {% endif %}
+                    {% if project.end_date %}
+                        <p><strong>Completed:</strong> {{ project.end_date|date:"F Y" }}</p>
+                    {% endif %}
+                    {% if project.client_name %}
+                        <p><strong>Client:</strong> {{ project.client_name }}</p>
+                    {% endif %}
+                    <p><strong>Type:</strong> {% if project.is_personal %}Personal{% else %}Professional{% endif %}</p>
+                    {% if project.github_stars > 0 %}
+                        <p><strong>GitHub Stars:</strong> {{ project.github_stars }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5>Share This Project</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-column gap-2">
+                        <a href="#" class="btn btn-outline-primary btn-sm">
+                            <i class="fab fa-twitter"></i> Share on Twitter
+                        </a>
+                        <a href="#" class="btn btn-outline-primary btn-sm">
+                            <i class="fab fa-linkedin"></i> Share on LinkedIn
+                        </a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-link"></i> Copy Link
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

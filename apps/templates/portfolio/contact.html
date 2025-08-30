@@ -1,0 +1,127 @@
+
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block title %}Contact - Portfolio{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="text-center mb-5">Get In Touch</h1>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h4>Contact Information</h4>
+                            {% if profile %}
+                                <p class="mb-3">{{ profile.description }}</p>
+                                
+                                {% if profile.email %}
+                                <p><i class="fas fa-envelope text-primary me-2"></i>{{ profile.email }}</p>
+                                {% endif %}
+                                
+                                {% if profile.phone %}
+                                <p><i class="fas fa-phone text-primary me-2"></i>{{ profile.phone }}</p>
+                                {% endif %}
+                                
+                                {% if profile.location %}
+                                <p><i class="fas fa-map-marker-alt text-primary me-2"></i>{{ profile.location }}</p>
+                                {% endif %}
+                                
+                                <div class="mt-4">
+                                    <h6>Follow Me</h6>
+                                    <div class="d-flex gap-3">
+                                        {% if profile.github_url %}
+                                            <a href="{{ profile.github_url }}" class="text-primary fs-4">
+                                                <i class="fab fa-github"></i>
+                                            </a>
+                                        {% endif %}
+                                        {% if profile.linkedin_url %}
+                                            <a href="{{ profile.linkedin_url }}" class="text-primary fs-4">
+                                                <i class="fab fa-linkedin"></i>
+                                            </a>
+                                        {% endif %}
+                                        {% if profile.twitter_url %}
+                                            <a href="{{ profile.twitter_url }}" class="text-primary fs-4">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <p class="mb-3">Feel free to reach out to me for any inquiries, collaborations, or just to say hello!</p>
+                                <p><i class="fas fa-envelope text-primary me-2"></i>saiteja@example.com</p>
+                                <p><i class="fas fa-map-marker-alt text-primary me-2"></i>India</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h4>Send Me a Message</h4>
+                            <form id="contactForm" method="POST">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="subject" name="subject">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Message *</label>
+                                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Simple form submission handling
+    fetch('{% url "portfolio:contact" %}', {
+        method: 'POST',
+        body: new FormData(this),
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Message sent successfully! Thank you for contacting me.');
+            this.reset();
+        } else {
+            alert('There was an error sending your message. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('There was an error sending your message. Please try again.');
+    });
+});
+</script>
+{% endblock %}

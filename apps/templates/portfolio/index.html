@@ -1,0 +1,190 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block title %}MST Portfolio!{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-light py-5 mt-5">
+    <div class="container">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-4">Portfolio !</h1>
+                
+                {% if profile %}
+                <h2 class="h4 text-muted mb-3">{{ profile.title }}</h2>
+                
+                <p class="lead mb-4">
+                    I am {{ profile.name }} who is interested in ML career and this is my 
+                    portfolio, {{ profile.description }}
+                </p>
+                
+                <p class="mb-4">
+                    Skilled in Python programming, data analysis, and AI frameworks. Eager to apply 
+                    my knowledge to develop intelligent systems that solve real-world problems. 
+                    Always learning and exploring new AI advancements to stay at the forefront of 
+                    innovation. Seeking opportunities to contribute, grow, and make an impact in the 
+                    AI engineering field.
+                </p>
+                {% else %}
+                <h2 class="h4 text-muted mb-3">Aspiring AI Engineer | BTech Computer Science and Engineering Student</h2>
+                
+                <p class="lead mb-4">
+                    I am Sai Teja who is interested in ML career and this is my 
+                    portfolio, Passionate about artificial intelligence and its 
+                    transformative impact on technology. Currently pursuing a 
+                    BTech in CSE with a focus on AI, machine learning, and deep learning.
+                </p>
+                
+                <p class="mb-4">
+                    Skilled in Python programming, data analysis, and AI frameworks. Eager to apply 
+                    my knowledge to develop intelligent systems that solve real-world problems. 
+                    Always learning and exploring new AI advancements to stay at the forefront of 
+                    innovation. Seeking opportunities to contribute, grow, and make an impact in the 
+                    AI engineering field.
+                </p>
+                {% endif %}
+                
+                <p class="mb-4">You can check my projects and blogs, Contact me through below.</p>
+                
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{% url 'projects:project_list' %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-code me-2"></i>View Projects
+                    </a>
+                    <a href="{% url 'blog:blog_list' %}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-blog me-2"></i>Read Blog
+                    </a>
+                    <a href="{% url 'portfolio:contact' %}" class="btn btn-outline-secondary btn-lg">
+                        <i class="fas fa-envelope me-2"></i>Contact Me
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 text-center">
+                <div class="profile-image-container">
+                    {% if profile and profile.profile_image %}
+                        <img src="{{ profile.profile_image.url }}" alt="{{ profile.name }}" 
+                             class="img-fluid rounded-circle mb-3" style="max-width: 250px;">
+                    {% else %}
+                        <!-- Default profile icon matching the design -->
+                        <div class="profile-placeholder d-inline-flex align-items-center justify-content-center 
+                                  bg-primary text-white rounded-circle mb-3" 
+                             style="width: 200px; height: 200px; font-size: 4rem;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+{% if skills %}
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Skills & Technologies</h2>
+        <div class="row">
+            {% for skill in skills %}
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="skill-card text-center p-3 border rounded">
+                    {% if skill.icon %}
+                        <i class="{{ skill.icon }} fa-2x mb-2 text-primary"></i>
+                    {% endif %}
+                    <h5>{{ skill.name }}</h5>
+                    <div class="progress mt-2">
+                        <div class="progress-bar bg-primary" role="progressbar" 
+                             style="width: {{ skill.proficiency }}%">
+                            {{ skill.proficiency }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Recent Projects Section -->
+{% if recent_projects %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2>Featured Projects</h2>
+                <p class="text-muted">Check out some of my recent work</p>
+            </div>
+        </div>
+        <div class="row">
+            {% for project in recent_projects %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    {% if project.featured_image %}
+                        <img src="{{ project.featured_image.url }}" class="card-img-top" alt="{{ project.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text">{{ project.short_description }}</p>
+                        <div class="mb-2">
+                            {% for tech in project.technologies.all %}
+                                <span class="badge bg-secondary me-1">{{ tech.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <a href="{{ project.get_absolute_url }}" class="btn btn-primary">View Project</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <a href="{% url 'projects:project_list' %}" class="btn btn-outline-primary btn-lg">
+                View All Projects
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Recent Blog Posts -->
+{% if recent_blogs %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2>Latest Blog Posts</h2>
+                <p class="text-muted">Thoughts and insights from my journey</p>
+            </div>
+        </div>
+        <div class="row">
+            {% for post in recent_blogs %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    {% if post.featured_image %}
+                        <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.excerpt }}</p>
+                        <small class="text-muted">
+                            {{ post.created_at|date:"M d, Y" }} | {{ post.category.name }}
+                        </small>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{{ post.get_absolute_url }}" class="btn btn-outline-primary btn-sm">
+                            Read More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <a href="{% url 'blog:blog_list' %}" class="btn btn-outline-primary btn-lg">
+                View All Posts
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
