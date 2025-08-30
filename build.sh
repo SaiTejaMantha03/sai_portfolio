@@ -4,8 +4,6 @@ set -o errexit
 
 pip install -r requirements.txt
 
-python manage.py collectstatic --no-input
+python manage.py makemigrations
 python manage.py migrate
-
-# Start the application
-gunicorn portfolio_project.wsgi:application
+python manage.py collectstatic --no-input

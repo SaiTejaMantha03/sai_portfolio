@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-portfolio-secret-key-replace-in-production'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*', '.onrender.com']
 
