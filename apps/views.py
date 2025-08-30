@@ -8,12 +8,15 @@ def home(request):
     """Home page view"""
     try:
         profile = Profile.objects.first()
-    except Profile.DoesNotExist:
+        skills = Skill.objects.all()
+        recent_projects = Project.objects.filter(is_featured=True)[:3]
+        recent_blogs = BlogPost.objects.filter(is_published=True)[:3]
+    except:
+        # Handle case when tables don't exist yet
         profile = None
-    
-    skills = Skill.objects.all()
-    recent_projects = Project.objects.filter(is_featured=True)[:3]
-    recent_blogs = BlogPost.objects.filter(is_published=True)[:3]
+        skills = []
+        recent_projects = []
+        recent_blogs = []
     
     context = {
         'profile': profile,
