@@ -5,45 +5,22 @@ from .models import BlogPost, Category, Tag
 
 def blog_list(request):
     """Blog list view with pagination and filtering"""
-    posts = BlogPost.objects.filter(is_published=True)
-    
-    # Category filtering
-    category_slug = request.GET.get('category')
-    if category_slug:
-        posts = posts.filter(category__slug=category_slug)
-    
-    # Tag filtering
-    tag_slug = request.GET.get('tag')
-    if tag_slug:
-        posts = posts.filter(tags__slug=tag_slug)
-    
-    # Search functionality
-    search_query = request.GET.get('search')
-    if search_query:
-        posts = posts.filter(
-            Q(title__icontains=search_query) |
-            Q(content__icontains=search_query) |
-            Q(excerpt__icontains=search_query)
-        )
-    
-    # Pagination
-    paginator = Paginator(posts, 6)  # Show 6 posts per page
-    page_number = request.GET.get('page')
-    posts = paginator.get_page(page_number)
-    
-    # Context data
-    categories = Category.objects.all()
-    tags = Tag.objects.all()
-    recent_posts = BlogPost.objects.filter(is_published=True)[:5]
+    try:
+        posts = BlogPost.objects.filter(is_published=True)
+        categories = Category.objects.all()
+        tags = Tag.objects.all()
+        recent_posts = BlogPost.objects.filter(is_published=True)[:5]
+    except:
+        posts = []
+        categories = []
+        tags = []
+        recent_posts = []
     
     context = {
         'posts': posts,
         'categories': categories,
         'tags': tags,
         'recent_posts': recent_posts,
-        'search_query': search_query,
-        'current_category': category_slug,
-        'current_tag': tag_slug,
     }
     return render(request, 'blog/blog_list.html', context)
 

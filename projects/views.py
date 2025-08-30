@@ -5,51 +5,22 @@ from .models import Project, ProjectCategory, Technology
 
 def project_list(request):
     """Projects list view with filtering"""
-    projects = Project.objects.all()
-    
-    # Category filtering
-    category_slug = request.GET.get('category')
-    if category_slug:
-        projects = projects.filter(category__slug=category_slug)
-    
-    # Technology filtering
-    tech_id = request.GET.get('technology')
-    if tech_id:
-        projects = projects.filter(technologies__id=tech_id)
-    
-    # Status filtering
-    status = request.GET.get('status')
-    if status:
-        projects = projects.filter(status=status)
-    
-    # Search functionality
-    search_query = request.GET.get('search')
-    if search_query:
-        projects = projects.filter(
-            Q(title__icontains=search_query) |
-            Q(description__icontains=search_query) |
-            Q(short_description__icontains=search_query)
-        )
-    
-    # Pagination
-    paginator = Paginator(projects, 6)  # Show 6 projects per page
-    page_number = request.GET.get('page')
-    projects = paginator.get_page(page_number)
-    
-    # Context data
-    categories = ProjectCategory.objects.all()
-    technologies = Technology.objects.all()
-    featured_projects = Project.objects.filter(is_featured=True)[:3]
+    try:
+        projects = Project.objects.all()
+        categories = ProjectCategory.objects.all()
+        technologies = Technology.objects.all()
+        featured_projects = Project.objects.filter(is_featured=True)[:3]
+    except:
+        projects = []
+        categories = []
+        technologies = []
+        featured_projects = []
     
     context = {
         'projects': projects,
         'categories': categories,
         'technologies': technologies,
         'featured_projects': featured_projects,
-        'search_query': search_query,
-        'current_category': category_slug,
-        'current_tech': tech_id,
-        'current_status': status,
     }
     return render(request, 'projects/project_list.html', context)
 
