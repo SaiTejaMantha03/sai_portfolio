@@ -59,7 +59,7 @@ def contact(request):
     
     try:
         profile = Profile.objects.first()
-    except Profile.DoesNotExist:
+    except:
         profile = None
     
     context = {'profile': profile}
