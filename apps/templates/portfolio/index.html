@@ -44,9 +44,18 @@
                     <div class="profile-image-wrapper" style="display: inline-block; position: relative;">
                         <img src="{% static 'images/profile-photo.png' %}" alt="Sai Teja Mantha" 
                              class="img-fluid rounded-circle shadow-lg profile-image" 
-                             style="width: 300px; height: 300px; object-fit: cover;">
+                             style="width: 300px; height: 300px; object-fit: cover;"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         <!-- Fallback professional placeholder -->
-                       
+                        <div class="profile-placeholder d-none align-items-center justify-content-center 
+                                  text-white rounded-circle shadow-lg" 
+                             style="width: 300px; height: 300px; font-size: 4rem; border: 5px solid #fff; 
+                                    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);">
+                            <div class="text-center">
+                                <div style="font-size: 3rem; font-weight: bold; margin-bottom: 0.5rem;">ST</div>
+                                <div style="font-size: 0.9rem; opacity: 0.9;">Sai Teja</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -176,4 +185,24 @@
     </div>
 </section>
 {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle profile image fallback
+    const profileImg = document.querySelector('.profile-image');
+    const fallbackDiv = document.querySelector('.profile-placeholder');
+    
+    if (profileImg) {
+        profileImg.onerror = function() {
+            this.style.display = 'none';
+            if (fallbackDiv) {
+                fallbackDiv.classList.remove('d-none');
+                fallbackDiv.classList.add('d-flex');
+            }
+        };
+    }
+});
+</script>
 {% endblock %}

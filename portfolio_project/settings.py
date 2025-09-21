@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-portfolio-secret-key-replace-in-production')
 
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
 # Configure ALLOWED_HOSTS for production
 if DEBUG:
@@ -16,6 +16,7 @@ else:
         'sai-portfolio.onrender.com',  # Replace with your actual Render URL
         'localhost',
         '127.0.0.1',
+        '*',  # Allow all hosts in production for now
     ]
 
 INSTALLED_APPS = [
