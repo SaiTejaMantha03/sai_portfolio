@@ -7,7 +7,16 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-portfolio-secret-key-replace-i
 
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['*', '.onrender.com', 'localhost', '127.0.0.1']
+# Configure ALLOWED_HOSTS for production
+if DEBUG:
+    ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1']
+else:
+    ALLOWED_HOSTS = [
+        '.onrender.com',
+        'sai-portfolio.onrender.com',  # Replace with your actual Render URL
+        'localhost',
+        '127.0.0.1',
+    ]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -54,13 +63,22 @@ WSGI_APPLICATION = 'portfolio_project.wsgi.application'
 
 # Database Configuration
 import os
+import dj_database_url
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Use PostgreSQL in production, SQLite in development
+if 'DATABASE_URL' in os.environ:
+    # Production database (Render provides DATABASE_URL)
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
-}
+else:
+    # Development database (SQLite)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
