@@ -43,9 +43,54 @@ body {
     min-height: 75vh;
 }
 
+/* Profile Image Styles */
+.profile-image {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 5px solid #fff;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
 .profile-placeholder {
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
     transition: transform 0.3s ease;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+}
+
+.profile-placeholder:hover {
+    transform: scale(1.05);
+}
+
+/* Fallback profile image styling */
+.profile-image-wrapper {
+    position: relative;
+}
+
+.profile-image-wrapper img:not([src]),
+.profile-image-wrapper img[src=""],
+.profile-image-wrapper img[src*="profile-photo.jpg"]:not([src*="data:"]) {
+    display: none;
+}
+
+.profile-image-wrapper img:not([src]) + .profile-placeholder,
+.profile-image-wrapper img[src=""] + .profile-placeholder,
+.profile-image-wrapper img[src*="profile-photo.jpg"]:not([src*="data:"]) + .profile-placeholder {
+    display: flex !important;
+}
+
+/* Social Links */
+.social-links a {
+    transition: all 0.3s ease;
+    border-radius: 25px;
+}
+
+.social-links a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .profile-placeholder:hover {
