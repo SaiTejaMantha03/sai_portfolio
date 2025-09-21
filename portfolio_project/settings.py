@@ -57,8 +57,8 @@ import os
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mssql',
-        'NAME': os.environ.get('DB_NAME', 'portfolio_db'),
+        'ENGINE': 'mysql',
+        'NAME': os.environ.get('DB_NAME', 'portfolio_'),
         'USER': os.environ.get('DB_USER', ''),
         'PASSWORD': os.environ.get('DB_PASSWORD', ''),
         'HOST': os.environ.get('DB_HOST', ''),
