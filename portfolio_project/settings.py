@@ -13,7 +13,9 @@ if DEBUG:
 else:
     ALLOWED_HOSTS = [
         '.onrender.com',
-        'sai-portfolio.onrender.com',  # Replace with your actual Render URL
+        'sai-portfolio.onrender.com',  # Render deployment
+        '.azurewebsites.net',  # Azure Web Apps
+        os.environ.get('WEBSITE_HOSTNAME', ''),  # Azure-specific hostname
         'localhost',
         '127.0.0.1',
         '*',  # Allow all hosts in production for now
@@ -66,9 +68,26 @@ WSGI_APPLICATION = 'portfolio_project.wsgi.application'
 import os
 import dj_database_url
 
-# Use PostgreSQL in production, SQLite in development
-if 'DATABASE_URL' in os.environ:
-    # Production database (Render provides DATABASE_URL)
+# Multi-environment database configuration
+if 'AZURE_SQL_SERVER' in os.environ:
+    # Azure SQL Managed Instance / Azure SQL Database
+    DATABASES = {
+        'default': {
+            'ENGINE': 'sql_server.pyodbc',
+            'NAME': os.environ.get('AZURE_SQL_DATABASE', 'portfolio_db'),
+            'USER': os.environ.get('AZURE_SQL_USER'),
+            'PASSWORD': os.environ.get('AZURE_SQL_PASSWORD'),
+            'HOST': os.environ.get('AZURE_SQL_SERVER'),
+            'PORT': os.environ.get('AZURE_SQL_PORT', '1433'),
+            'OPTIONS': {
+                'driver': 'ODBC Driver 18 for SQL Server',
+                'MARS_Connection': 'True',
+                'extra_params': 'TrustServerCertificate=yes;Encrypt=yes'
+            },
+        }
+    }
+elif 'DATABASE_URL' in os.environ:
+    # PostgreSQL production database (Render or other providers)
     DATABASES = {
         'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
