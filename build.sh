@@ -7,10 +7,12 @@ echo "🚀 Starting Render deployment build..."
 echo "📦 Installing requirements..."
 pip install -r requirements.txt
 
-echo "🗄️ Making migrations..."
-python manage.py makemigrations --noinput
+echo "🗄️ Making migrations for all apps..."
+python manage.py makemigrations apps --noinput
+python manage.py makemigrations blog --noinput  
+python manage.py makemigrations projects --noinput
 
-echo "🗄️ Applying migrations..."
+echo "🗄️ Applying all migrations..."
 python manage.py migrate --noinput
 
 echo "📋 Collecting static files..."
