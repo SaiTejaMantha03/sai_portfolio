@@ -7,6 +7,23 @@ echo "🚀 Starting Render deployment build..."
 echo "📦 Installing requirements..."
 pip install -r requirements.txt
 
+echo "🔍 Database diagnostics..."
+echo "Current working directory: $(pwd)"
+echo "Python version: $(python --version)"
+echo "Environment variables:"
+printenv | grep -E "(DATABASE|DB)" || echo "No database environment variables found"
+
+# Check database configuration before proceeding
+echo "🔍 Checking database configuration..."
+python check_database_config.py bash
+# exit on error
+set -o errexit
+
+echo "🚀 Starting Render deployment build..."
+
+echo "📦 Installing requirements..."
+pip install -r requirements.txt
+
 echo "� Database diagnostics..."
 echo "Current working directory: $(pwd)"
 echo "Python version: $(python --version)"
@@ -24,25 +41,28 @@ python manage.py makemigrations projects --noinput || echo "Projects migrations 
 echo "🗄️ Database setup - Applying all migrations with verbose output..."
 python manage.py migrate --noinput --verbosity=2
 
-echo "🔍 Checking database tables..."
+echo "🔍 Checking database tables after migration..."
 python manage.py shell -c "
 from django.db import connection
 cursor = connection.cursor()
-cursor.execute(\"SELECT name FROM sqlite_master WHERE type='table';\")
+if 'postgresql' in connection.vendor:
+    cursor.execute(\"SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public';\")
+else:
+    cursor.execute(\"SELECT name FROM sqlite_master WHERE type='table';\")
 tables = cursor.fetchall()
 print(f'Found {len(tables)} tables:')
 for table in tables:
     print(f'  - {table[0]}')
 "
 
-echo "📋 Collecting static files..."
-python manage.py collectstatic --noinput
-
-echo "📊 Setting up database with comprehensive script..."
-python setup_database.py
-
-echo "🔧 Running database repair command..."
+echo "🔧 Force running database repair command..."
 python manage.py fix_database
+
+echo "� Running comprehensive database rebuild..."
+python manage.py rebuild_database
+
+echo "� Collecting static files..."
+python manage.py collectstatic --noinput
 
 echo "✅ Build completed successfully!"bash
 # exit on error
