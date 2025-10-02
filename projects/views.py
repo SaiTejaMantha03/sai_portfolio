@@ -10,11 +10,13 @@ def project_list(request):
         categories = ProjectCategory.objects.all()
         technologies = Technology.objects.all()
         featured_projects = Project.objects.filter(is_featured=True)[:3]
-    except:
+    except Exception as e:
+        # Database connection failed - provide fallback content
         projects = []
         categories = []
         technologies = []
         featured_projects = []
+        print(f"Database connection failed in project_list: {e}")
     
     context = {
         'projects': projects,

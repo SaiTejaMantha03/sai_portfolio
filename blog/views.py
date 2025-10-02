@@ -10,11 +10,13 @@ def blog_list(request):
         categories = Category.objects.all()
         tags = Tag.objects.all()
         recent_posts = BlogPost.objects.filter(is_published=True)[:5]
-    except:
+    except Exception as e:
+        # Database connection failed - provide fallback content
         posts = []
         categories = []
         tags = []
         recent_posts = []
+        print(f"Database connection failed in blog_list: {e}")
     
     context = {
         'posts': posts,
