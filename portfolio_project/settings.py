@@ -7,7 +7,7 @@ SECRET_KEY = 'django-portfolio-secret-key-replace-in-production'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '.onrender.com', 'saiwith.tech', 'www.saiwith.tech', 'home.saiwith.tech']
+ALLOWED_HOSTS = ['*', '.onrender.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -55,32 +55,21 @@ WSGI_APPLICATION = 'portfolio_project.wsgi.application'
 
 # Database Configuration
 import os
+import dj_database_url
 
-# Database Configuration
-# Use SQLite for development, Azure SQL for production
-if os.environ.get('USE_AZURE_SQL') == 'true':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'mssql',
-            'NAME': os.environ.get('DB_NAME', 'portfolio'),
-            'USER': os.environ.get('DB_USER', 'mysterious3115_gmail.com#EXT#@mysterious3115gmail.onmicrosoft.com'),
-            'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-            'HOST': os.environ.get('DB_HOST', 'portfoli.database.windows.net'),
-            'PORT': os.environ.get('DB_PORT', '1433'),
-            'OPTIONS': {
-                'driver': 'ODBC Driver 18 for SQL Server',
-                'extra_params': 'Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=60;Login Timeout=60;Authentication=ActiveDirectoryPassword;'
-            },
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'mssql',
+        'NAME': os.environ.get('DB_NAME', 'portfolio_db'),
+        'USER': os.environ.get('DB_USER', ''),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'HOST': os.environ.get('DB_HOST', ''),
+        'PORT': os.environ.get('DB_PORT', '1433'),
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+        },
     }
-else:
-    # Use SQLite for local development
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {

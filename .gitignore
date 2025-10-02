@@ -4,8 +4,27 @@ __pycache__/
 *$py.class
 *.so
 .Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
 env/
 venv/
+myenv/
 ENV/
 env.bak/
 venv.bak/
@@ -16,8 +35,32 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
-# Media files
-media/
+# Environment variables
+.env
+
+# Media files (except the profile and resume folders we want to keep)
+# media/
+# Allow specific media folders
+# !media/profile/
+# !media/resume/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+
+# Documentation files (keep only essential ones)
+populate_db.py
+setup_database.py
+startup.sh
 
 # Static files (if using collectstatic)
 staticfiles/

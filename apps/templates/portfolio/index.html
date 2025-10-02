@@ -8,44 +8,22 @@
 <section class="hero-section bg-light py-5 mt-5">
     <div class="container">
         <div class="row align-items-center min-vh-75">
-            <div class="col-lg-8">
-                <h1 class="display-4 fw-bold mb-4">Portfolio !</h1>
+            <div class="col-lg-6 order-lg-1">
+                <h1 class="display-4 fw-bold mb-4">Sai Teja Mantha</h1>
                 
-                {% if profile %}
-                <h2 class="h4 text-muted mb-3">{{ profile.title }}</h2>
+                <h2 class="h4 text-primary mb-3">Aspiring AI Engineer | Computer Science Student</h2>
                 
                 <p class="lead mb-4">
-                    I am {{ profile.name }} who is interested in ML career and this is my 
-                    portfolio, {{ profile.description }}
+                    Passionate about artificial intelligence and its transformative impact on technology. 
+                    Currently pursuing BTech in Computer Science and Engineering with a focus on AI, 
+                    machine learning, and web development.
                 </p>
                 
                 <p class="mb-4">
-                    Skilled in Python programming, data analysis, and AI frameworks. Eager to apply 
-                    my knowledge to develop intelligent systems that solve real-world problems. 
-                    Always learning and exploring new AI advancements to stay at the forefront of 
-                    innovation. Seeking opportunities to contribute, grow, and make an impact in the 
-                    AI engineering field.
+                    Skilled in Python programming, data analysis, and AI frameworks. I build intelligent 
+                    systems that solve real-world problems and stay at the forefront of AI innovation. 
+                    Always eager to learn, contribute, and make an impact in the technology field.
                 </p>
-                {% else %}
-                <h2 class="h4 text-muted mb-3">Aspiring AI Engineer | BTech Computer Science and Engineering Student</h2>
-                
-                <p class="lead mb-4">
-                    I am Sai Teja who is interested in ML career and this is my 
-                    portfolio, Passionate about artificial intelligence and its 
-                    transformative impact on technology. Currently pursuing a 
-                    BTech in CSE with a focus on AI, machine learning, and deep learning.
-                </p>
-                
-                <p class="mb-4">
-                    Skilled in Python programming, data analysis, and AI frameworks. Eager to apply 
-                    my knowledge to develop intelligent systems that solve real-world problems. 
-                    Always learning and exploring new AI advancements to stay at the forefront of 
-                    innovation. Seeking opportunities to contribute, grow, and make an impact in the 
-                    AI engineering field.
-                </p>
-                {% endif %}
-                
-                <p class="mb-4">You can check my projects and blogs, Contact me through below.</p>
                 
                 <div class="d-flex gap-3 flex-wrap">
                     <a href="{% url 'projects:project_list' %}" class="btn btn-primary btn-lg">
@@ -60,19 +38,39 @@
                 </div>
             </div>
             
-            <div class="col-lg-4 text-center">
+            <div class="col-lg-6 order-lg-2 text-center mb-4 mb-lg-0">
                 <div class="profile-image-container">
-                    {% if profile and profile.profile_image %}
-                        <img src="{{ profile.profile_image.url }}" alt="{{ profile.name }}" 
-                             class="img-fluid rounded-circle mb-3" style="max-width: 250px;">
-                    {% else %}
-                        <!-- Default profile icon matching the design -->
-                        <div class="profile-placeholder d-inline-flex align-items-center justify-content-center 
-                                  bg-primary text-white rounded-circle mb-3" 
-                             style="width: 200px; height: 200px; font-size: 4rem;">
-                            <i class="fas fa-user"></i>
+                    <!-- Professional Profile Image -->
+                    <div class="profile-image-wrapper" style="display: inline-block; position: relative;">
+                        <img src="{% static 'images/profile-photo.png' %}" alt="Sai Teja Mantha" 
+                             class="img-fluid rounded-circle shadow-lg profile-image" 
+                             style="width: 300px; height: 300px; object-fit: cover;"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <!-- Fallback professional placeholder -->
+                        <div class="profile-placeholder d-none align-items-center justify-content-center 
+                                  text-white rounded-circle shadow-lg" 
+                             style="width: 300px; height: 300px; font-size: 4rem; border: 5px solid #fff; 
+                                    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);">
+                            <div class="text-center">
+                                <div style="font-size: 3rem; font-weight: bold; margin-bottom: 0.5rem;">ST</div>
+                                <div style="font-size: 0.9rem; opacity: 0.9;">Sai Teja</div>
+                            </div>
                         </div>
-                    {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="social-links mt-4">
+                    <a href="https://github.com/SaiTejaMantha03" target="_blank" class="btn btn-outline-dark btn-sm me-2">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    
+                    <a href="https://www.linkedin.com/in/sai-teja-mantha-76a301287" target="_blank" class="btn btn-outline-primary btn-sm me-2">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </a>
+                    <a href="mailto:mst4offl@gmail.com" class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-envelope"></i> Email
+                    </a>
                 </div>
             </div>
         </div>
@@ -187,4 +185,24 @@
     </div>
 </section>
 {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle profile image fallback
+    const profileImg = document.querySelector('.profile-image');
+    const fallbackDiv = document.querySelector('.profile-placeholder');
+    
+    if (profileImg) {
+        profileImg.onerror = function() {
+            this.style.display = 'none';
+            if (fallbackDiv) {
+                fallbackDiv.classList.remove('d-none');
+                fallbackDiv.classList.add('d-flex');
+            }
+        };
+    }
+});
+</script>
 {% endblock %}

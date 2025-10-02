@@ -30,12 +30,14 @@ def about(request):
     """About page view"""
     try:
         profile = Profile.objects.first()
-    except Profile.DoesNotExist:
+        skills = Skill.objects.all()
+        experiences = Experience.objects.all()
+        education = Education.objects.all()
+    except:
         profile = None
-    
-    skills = Skill.objects.all()
-    experiences = Experience.objects.all()
-    education = Education.objects.all()
+        skills = []
+        experiences = []
+        education = []
     
     context = {
         'profile': profile,
