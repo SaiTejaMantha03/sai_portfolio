@@ -110,20 +110,40 @@ class Command(BaseCommand):
         if admin_user:
             blog_posts = [
                 {
-                    "title": "Getting Started with Django",
-                    "slug": "getting-started-django",
-                    "content": "Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design...",
-                    "excerpt": "Learn the basics of Django web framework",
+                    "title": "My Journey into Full Stack Development",
+                    "slug": "my-journey-full-stack-development",
+                    "content": "Starting my career in software development has been an incredible journey. From learning Python basics to building complex web applications with Django, every step has taught me something new. In this post, I'll share my experiences, challenges, and the technologies that have shaped my development skills.",
+                    "excerpt": "My personal journey and experiences in full stack development",
                     "category": tech_cat,
                     "author": admin_user,
                     "status": "published",
                     "is_published": True
                 },
                 {
-                    "title": "Building RESTful APIs",
-                    "slug": "building-restful-apis",
-                    "content": "REST APIs are essential for modern web development. Learn how to build scalable and maintainable APIs...",
-                    "excerpt": "Best practices for API development",
+                    "title": "Building Modern Web Applications with Django",
+                    "slug": "building-modern-web-applications-django",
+                    "content": "Django is a powerful Python web framework that enables rapid development of secure and maintainable websites. In this comprehensive guide, I'll walk you through the process of building a modern web application from scratch, covering models, views, templates, and deployment strategies.",
+                    "excerpt": "Complete guide to building web applications with Django framework",
+                    "category": tech_cat,
+                    "author": admin_user,
+                    "status": "published",
+                    "is_published": True
+                },
+                {
+                    "title": "Database Design Best Practices",
+                    "slug": "database-design-best-practices",
+                    "content": "Proper database design is crucial for building scalable applications. This post covers normalization, indexing, relationships, and performance optimization techniques that every developer should know when working with databases.",
+                    "excerpt": "Essential database design principles for developers",
+                    "category": tech_cat,
+                    "author": admin_user,
+                    "status": "published",
+                    "is_published": True
+                },
+                {
+                    "title": "Deploying Applications to the Cloud",
+                    "slug": "deploying-applications-cloud",
+                    "content": "Cloud deployment has revolutionized how we ship applications. Learn about different deployment strategies, containerization with Docker, and platforms like Render, Heroku, and AWS for hosting your web applications.",
+                    "excerpt": "Modern deployment strategies and cloud platforms",
                     "category": tech_cat,
                     "author": admin_user,
                     "status": "published",
