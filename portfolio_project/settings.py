@@ -59,7 +59,7 @@ import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://postgres:Sai@0305@db.hsbxxbxtgqqcgmtpgodv.supabase.co:5432/postgres',
+        default=f'sqlite:///{BASE_DIR}/db.sqlite3',
         conn_max_age=600
     )
 }
