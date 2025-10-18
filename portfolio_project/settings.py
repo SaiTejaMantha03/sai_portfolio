@@ -55,15 +55,14 @@ WSGI_APPLICATION = 'portfolio_project.wsgi.application'
 
 # Database Configuration
 import os
+import dj_database_url
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='postgresql://neondb_owner:npg_T3IzHnVw7ZNm@ep-wispy-sea-ad3i22re-pooler.c-2.us-east-1.aws.neon.tech/portfolio?sslmode=require',
+        conn_max_age=600
+    )
 }
-
-# SQLite only for fast deployment
 
 AUTH_PASSWORD_VALIDATORS = [
     {

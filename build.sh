@@ -16,6 +16,9 @@ python manage.py migrate --run-syncdb
 echo "Creating superuser..."
 python manage.py create_superuser
 
+echo "Loading sample data..."
+python manage.py load_sample_data
+
 echo "Collecting static files..."
 python manage.py collectstatic --no-input
 
