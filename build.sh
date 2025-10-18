@@ -19,6 +19,9 @@ python manage.py create_superuser
 echo "Loading sample data..."
 python manage.py load_sample_data
 
+echo "Syncing GitHub projects..."
+python manage.py sync_github_projects
+
 echo "Collecting static files..."
 python manage.py collectstatic --no-input
 
