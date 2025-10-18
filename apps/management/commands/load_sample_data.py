@@ -53,12 +53,12 @@ class Command(BaseCommand):
             defaults={"icon": "fab fa-python", "color": "#3776AB"}
         )
 
-        # Create sample projects (these will be recreated on each deploy)
+        # Create sample projects based on your actual GitHub repos
         projects_data = [
             {
                 "title": "Portfolio Website",
-                "slug": "portfolio-website",
-                "description": "A modern portfolio website built with Django featuring blog, projects showcase, and contact functionality. Includes responsive design, admin panel, and database integration.",
+                "slug": "sai-portfolio",
+                "description": "A modern portfolio website built with Django featuring blog, projects showcase, and contact functionality. Includes responsive design, admin panel, database integration, and deployment on Render.",
                 "short_description": "Modern Django portfolio with blog and projects",
                 "category": web_cat,
                 "is_featured": True,
@@ -67,26 +67,48 @@ class Command(BaseCommand):
                 "source_url": "https://github.com/SaiTejaMantha03/sai_portfolio"
             },
             {
-                "title": "E-Commerce Platform",
-                "slug": "ecommerce-platform",
-                "description": "Full-featured e-commerce platform with user authentication, product catalog, shopping cart, and payment integration.",
-                "short_description": "Complete e-commerce solution",
+                "title": "Work Repository",
+                "slug": "work-repository",
+                "description": "A comprehensive work repository containing various projects, code samples, and development experiments. This repository showcases different programming concepts and implementations.",
+                "short_description": "Collection of work projects and code samples",
                 "category": web_cat,
                 "is_featured": True,
                 "status": "completed",
                 "demo_url": "",
-                "source_url": ""
+                "source_url": "https://github.com/SaiTejaMantha03/work"
             },
             {
-                "title": "Task Management App",
-                "slug": "task-management",
-                "description": "A collaborative task management application with real-time updates, team collaboration features, and project tracking.",
-                "short_description": "Team collaboration and task tracking",
+                "title": "Python Development Projects",
+                "slug": "python-projects",
+                "description": "A collection of Python projects demonstrating various programming concepts, algorithms, and practical applications. Includes data structures, web scraping, automation scripts, and more.",
+                "short_description": "Python programming projects and examples",
                 "category": web_cat,
                 "is_featured": True,
-                "status": "in_progress",
+                "status": "completed",
                 "demo_url": "",
-                "source_url": ""
+                "source_url": "https://github.com/SaiTejaMantha03"
+            },
+            {
+                "title": "Web Development Showcase",
+                "slug": "web-development-showcase",
+                "description": "A showcase of web development skills including frontend and backend technologies. Features responsive design, modern JavaScript, database integration, and deployment strategies.",
+                "short_description": "Full-stack web development demonstrations",
+                "category": web_cat,
+                "is_featured": False,
+                "status": "completed",
+                "demo_url": "",
+                "source_url": "https://github.com/SaiTejaMantha03"
+            },
+            {
+                "title": "Database Management System",
+                "slug": "database-management",
+                "description": "A comprehensive database management system built with Python and SQL. Features CRUD operations, data validation, reporting, and user management with secure authentication.",
+                "short_description": "Python-based database management system",
+                "category": web_cat,
+                "is_featured": False,
+                "status": "completed",
+                "demo_url": "",
+                "source_url": "https://github.com/SaiTejaMantha03"
             }
         ]
 
