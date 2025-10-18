@@ -7,7 +7,7 @@ class Command(BaseCommand):
     help = 'Sync projects from GitHub'
 
     def handle(self, *args, **options):
-        github_username = "SaiTejaMantha03"
+        github_username = "SaiTejaMantha03"  # Change this to your actual GitHub username
         
         try:
             # Fetch repositories from GitHub API
@@ -35,9 +35,14 @@ class Command(BaseCommand):
                     defaults={"icon": "fab fa-js", "color": "#F7DF1E"}
                 )
                 
+                # Debug: Print repo names
+                self.stdout.write(f'Found {len(repos)} repositories')
+                for repo in repos[:5]:
+                    self.stdout.write(f'Repo: {repo["name"]} - {repo["description"]}')
+                
                 # Process repositories
                 for repo in repos[:10]:  # Limit to 10 repos
-                    if not repo['fork'] and repo['description']:  # Skip forks and repos without description
+                    if not repo['fork']:  # Skip forks only
                         
                         # Determine if featured (has stars or is recent)
                         is_featured = repo['stargazers_count'] > 0 or 'portfolio' in repo['name'].lower()

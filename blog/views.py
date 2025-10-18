@@ -6,10 +6,10 @@ from .models import BlogPost, Category, Tag
 def blog_list(request):
     """Blog list view with pagination and filtering"""
     try:
-        posts = BlogPost.objects.filter(is_published=True)
+        posts = BlogPost.objects.all()  # Show all posts including drafts
         categories = Category.objects.all()
         tags = Tag.objects.all()
-        recent_posts = BlogPost.objects.filter(is_published=True)[:5]
+        recent_posts = BlogPost.objects.all()[:5]
     except Exception as e:
         # Database connection failed - provide fallback content
         posts = []
