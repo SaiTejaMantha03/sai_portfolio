@@ -59,7 +59,7 @@ import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://neondb_owner:npg_T3IzHnVw7ZNm@ep-wispy-sea-ad3i22re-pooler.c-2.us-east-1.aws.neon.tech/portfolio?sslmode=require',
+        default='postgresql://postgres:Sai@0305@db.hsbxxbxtgqqcgmtpgodv.supabase.co:5432/postgres',
         conn_max_age=600
     )
 }
