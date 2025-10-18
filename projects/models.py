@@ -36,7 +36,7 @@ class Project(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     description = models.TextField()
     short_description = models.TextField(max_length=300, help_text="Brief project description")
-    featured_image = models.ImageField(upload_to='projects/', blank=True, null=True)
+    featured_image = models.CharField(max_length=200, blank=True, null=True, help_text="Featured image URL")
     category = models.ForeignKey(ProjectCategory, on_delete=models.SET_NULL, null=True, blank=True)
     technologies = models.ManyToManyField(Technology, blank=True)
     
@@ -76,7 +76,7 @@ class Project(models.Model):
 
 class ProjectImage(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='projects/gallery/')
+    image = models.CharField(max_length=200, help_text="Image URL")
     caption = models.CharField(max_length=200, blank=True)
     is_featured = models.BooleanField(default=False)
     order = models.PositiveIntegerField(default=0)

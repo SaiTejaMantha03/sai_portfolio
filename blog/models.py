@@ -35,7 +35,7 @@ class BlogPost(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     content = models.TextField()
     excerpt = models.TextField(max_length=300, help_text="Brief description of the post")
-    featured_image = models.ImageField(upload_to='blog/', blank=True, null=True)
+    featured_image = models.CharField(max_length=200, blank=True, null=True, help_text="Featured image URL")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
