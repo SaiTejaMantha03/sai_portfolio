@@ -13,6 +13,9 @@ python manage.py makemigrations projects
 echo "Running migrations..."
 python manage.py migrate --run-syncdb
 
+echo "Creating superuser..."
+python manage.py create_superuser
+
 echo "Collecting static files..."
 python manage.py collectstatic --no-input
 
